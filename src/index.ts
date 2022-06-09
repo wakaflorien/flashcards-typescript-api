@@ -1,13 +1,13 @@
 import { ApolloServer } from "apollo-server";
+import { context } from "./context";
 
-// 1
 import { schema } from "./schema";
 export const app = new ApolloServer({
     schema,
+    context,
 });
 
 const port = 3000;
-// 2
 app.listen({port}).then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
 });

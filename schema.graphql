@@ -2,6 +2,31 @@
 ### Do not make changes to this file directly
 
 
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type Mutation {
+  login(email: String!, password: String!): AuthPayload!
+  post(answer: String!, question: String!): Question!
+  signup(email: String!, name: String!, password: String!): AuthPayload!
+}
+
 type Query {
-  ok: Boolean!
+  allQuestions: [Question!]!
+}
+
+type Question {
+  answer: String!
+  createdBy: User
+  id: Int!
+  question: String!
+}
+
+type User {
+  email: String!
+  id: Int!
+  name: String!
+  questions: [Question!]!
 }
