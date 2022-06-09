@@ -13,6 +13,14 @@ export const User = objectType({
                     .findUnique({ where: { id: parent.id } })
                     .questions();
             },
-        }); 
+        });
+        t.nonNull.list.nonNull.field("views", {
+            type: "Question",
+            resolve(parent, args, context) {
+                return context.prisma.user
+                    .findUnique({ where: { id: parent.id } })
+                    .views();
+            }
+        }) 
     },
 });

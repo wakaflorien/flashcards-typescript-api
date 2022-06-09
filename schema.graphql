@@ -7,21 +7,29 @@ type AuthPayload {
   user: User!
 }
 
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
 type Mutation {
   login(email: String!, password: String!): AuthPayload!
   post(answer: String!, question: String!): Question!
   signup(email: String!, name: String!, password: String!): AuthPayload!
+  view(qnId: Int!): View
 }
 
 type Query {
-  allQuestions: [Question!]!
+  allQuestions(filter: String): [Question!]!
 }
 
 type Question {
   answer: String!
+  createdAt: DateTime!
   createdBy: User
   id: Int!
   question: String!
+  viewers: [User!]!
 }
 
 type User {
@@ -29,4 +37,10 @@ type User {
   id: Int!
   name: String!
   questions: [Question!]!
+  views: [Question!]!
+}
+
+type View {
+  question: Question!
+  user: User!
 }

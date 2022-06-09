@@ -5,8 +5,23 @@
 
 
 import type { Context } from "./src/context"
-
-
+import type { core } from "nexus"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    dateTime<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    dateTime<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
+  }
+}
 
 
 declare global {
@@ -25,6 +40,7 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  DateTime: any
 }
 
 export interface NexusGenObjects {
@@ -36,6 +52,7 @@ export interface NexusGenObjects {
   Query: {};
   Question: { // root type
     answer: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     question: string; // String!
   }
@@ -43,6 +60,10 @@ export interface NexusGenObjects {
     email: string; // String!
     id: number; // Int!
     name: string; // String!
+  }
+  View: { // root type
+    question: NexusGenRootTypes['Question']; // Question!
+    user: NexusGenRootTypes['User']; // User!
   }
 }
 
@@ -65,21 +86,29 @@ export interface NexusGenFieldTypes {
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     post: NexusGenRootTypes['Question']; // Question!
     signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    view: NexusGenRootTypes['View'] | null; // View
   }
   Query: { // field return type
     allQuestions: NexusGenRootTypes['Question'][]; // [Question!]!
   }
   Question: { // field return type
     answer: string; // String!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     createdBy: NexusGenRootTypes['User'] | null; // User
     id: number; // Int!
     question: string; // String!
+    viewers: NexusGenRootTypes['User'][]; // [User!]!
   }
   User: { // field return type
     email: string; // String!
     id: number; // Int!
     name: string; // String!
     questions: NexusGenRootTypes['Question'][]; // [Question!]!
+    views: NexusGenRootTypes['Question'][]; // [Question!]!
+  }
+  View: { // field return type
+    question: NexusGenRootTypes['Question']; // Question!
+    user: NexusGenRootTypes['User']; // User!
   }
 }
 
@@ -92,21 +121,29 @@ export interface NexusGenFieldTypeNames {
     login: 'AuthPayload'
     post: 'Question'
     signup: 'AuthPayload'
+    view: 'View'
   }
   Query: { // field return type name
     allQuestions: 'Question'
   }
   Question: { // field return type name
     answer: 'String'
+    createdAt: 'DateTime'
     createdBy: 'User'
     id: 'Int'
     question: 'String'
+    viewers: 'User'
   }
   User: { // field return type name
     email: 'String'
     id: 'Int'
     name: 'String'
     questions: 'Question'
+    views: 'Question'
+  }
+  View: { // field return type name
+    question: 'Question'
+    user: 'User'
   }
 }
 
@@ -124,6 +161,14 @@ export interface NexusGenArgTypes {
       email: string; // String!
       name: string; // String!
       password: string; // String!
+    }
+    view: { // args
+      qnId: number; // Int!
+    }
+  }
+  Query: {
+    allQuestions: { // args
+      filter?: string | null; // String
     }
   }
 }

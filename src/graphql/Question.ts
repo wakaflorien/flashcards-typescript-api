@@ -7,6 +7,7 @@ export const Question = objectType({
         t.nonNull.int("id");
         t.nonNull.string("question");
         t.nonNull.string("answer");
+        t.nonNull.dateTime("createdAt");
         t.field("createdBy", {
             type: "User",
             resolve(parent, args, context) {
@@ -15,6 +16,14 @@ export const Question = objectType({
                     .createdBy();
             }
         });
+        t.nonNull.list.nonNull.field("viewers", {
+            type: "User",
+            resolve(parent, args, context) {
+                return context.prisma.question
+                    .findUnique({ where: { id: parent.id }})
+                    .viewers();
+            }
+        })
     }
 });
 
@@ -23,8 +32,21 @@ export const QuestionQuery = extendType({
     definition(t) {
         t.nonNull.list.nonNull.field("allQuestions", {   
             type: "Question",
-            resolve(parent, args, context) {   
-                return context.prisma.question.findMany();
+            args: {
+                filter: stringArg(),
+            },
+            resolve(parent, args, context) {
+                const where = args.filter  
+                    ? {
+                          OR: [
+                              { question: { contains: args.filter } },
+                              { answer: { contains: args.filter } },
+                          ],
+                      }
+                    : {};   
+                return context.prisma.question.findMany({
+                    where,
+                });
             },
         });
     },
