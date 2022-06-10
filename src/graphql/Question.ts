@@ -1,5 +1,4 @@
-import { extendType, nonNull, objectType, stringArg, intArg } from "nexus";  
-import { NexusGenObjects } from "../../nexus-typegen"; 
+import { extendType, nonNull, objectType, stringArg } from "nexus";  
 
 export const Question = objectType({
     name: "Question",
