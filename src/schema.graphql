@@ -13,9 +13,11 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
+  deleteQuestion(id: Int!): Question!
   login(email: String!, password: String!): AuthPayload!
   post(answer: String!, question: String!): Question!
   signup(email: String!, name: String!, password: String!): AuthPayload!
+  updateQuestion(answer: String!, id: Int!, question: String!): Question!
   view(qnId: Int!): View
 }
 

@@ -1,4 +1,4 @@
-import { extendType, nonNull, objectType, stringArg } from "nexus";  
+import { extendType, nonNull, objectType, stringArg, intArg } from "nexus";  
 
 export const Question = objectType({
     name: "Question",
@@ -78,5 +78,41 @@ export const QuestionMutation = extendType({
                 return newQuestion;
             },
         });
+        t.nonNull.field("updateQuestion", {
+            type: "Question",
+            args: {
+              id: nonNull(intArg()),
+              question: nonNull(stringArg()),
+              answer: nonNull(stringArg()),
+            },
+      
+            resolve(parent, args, context){
+              const { id, question, answer } = args;
+              let updateQuestion = context.prisma.question.update({ 
+                where: {
+                  id: id
+                },
+                data: {
+                  question: question,
+                  answer: answer,
+                }
+              })
+              return updateQuestion;
+            },
+          });
+          t.nonNull.field("deleteQuestion", {
+            type: "Question",
+            args: {
+              id: nonNull(intArg()),
+            },
+      
+            resolve(parent, args, context){
+              const { id } = args;
+              let deleteQuestion = context.prisma.question.delete({
+                where: { id: id}
+              })
+              return deleteQuestion;
+            },
+          });
     },
 })
