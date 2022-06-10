@@ -83,9 +83,11 @@ export interface NexusGenFieldTypes {
     user: NexusGenRootTypes['User']; // User!
   }
   Mutation: { // field return type
+    deleteQuestion: NexusGenRootTypes['Question']; // Question!
     login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     post: NexusGenRootTypes['Question']; // Question!
     signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    updateQuestion: NexusGenRootTypes['Question']; // Question!
     view: NexusGenRootTypes['View'] | null; // View
   }
   Query: { // field return type
@@ -118,9 +120,11 @@ export interface NexusGenFieldTypeNames {
     user: 'User'
   }
   Mutation: { // field return type name
+    deleteQuestion: 'Question'
     login: 'AuthPayload'
     post: 'Question'
     signup: 'AuthPayload'
+    updateQuestion: 'Question'
     view: 'View'
   }
   Query: { // field return type name
@@ -149,6 +153,9 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    deleteQuestion: { // args
+      id: number; // Int!
+    }
     login: { // args
       email: string; // String!
       password: string; // String!
@@ -161,6 +168,11 @@ export interface NexusGenArgTypes {
       email: string; // String!
       name: string; // String!
       password: string; // String!
+    }
+    updateQuestion: { // args
+      answer: string; // String!
+      id: number; // Int!
+      question: string; // String!
     }
     view: { // args
       qnId: number; // Int!
