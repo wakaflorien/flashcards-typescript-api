@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --transpile-only --no-notify --exit-child src/index.ts",
+    "dev": "node api.js && ts-node-dev --transpile-only --no-notify --exit-child src/index.ts",
     "generate": "ts-node --transpile-only src/schema.ts",
     "prettier-format": "prettier 'src/**/*.ts' --write",
     "migrate:deploy": "prisma migrate deploy",
-    "build": "prisma generate && npm run generate && tsc",
-    "start": "node dist/index.js"
+    "build": "node api.js && prisma generate && npm run generate && tsc",
+    "start": "node api.js && node dist/index.js"
   },
   "keywords": [],
   "author": "",
